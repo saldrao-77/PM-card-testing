@@ -46,13 +46,57 @@ import {
   TrendingUp,
 } from "lucide-react"
 
+interface Card {
+  id: string
+  number: string
+  holder: string
+  balance: number
+  status: string
+}
+
+interface Activity {
+  type: string
+  description: string
+  amount: number
+  date: string
+}
+
+interface Transaction {
+  id: string
+  date: string
+  vendor: string
+  amount: number
+  category: string
+  status: string
+  receipt: boolean
+}
+
+interface Property {
+  id: string
+  name: string
+  address: string
+  totalBalance: number
+  cardCount: number
+  pendingBills: number
+  trustBalance: number
+  lastSync: string
+  qboStatus: string
+  reconciliationStatus: string
+  pendingTransactions: number
+  lastReport: string
+  ownerEmail: string
+  cards: Card[]
+  recentActivity: Activity[]
+  transactions: Transaction[]
+}
+
 export default function PMFinancialDashboard() {
   const [expandedProperty, setExpandedProperty] = useState<string | null>(null)
   const [paymentDialogOpen, setPaymentDialogOpen] = useState(false)
   const [reportDialogOpen, setReportDialogOpen] = useState(false)
-  const [selectedProperty, setSelectedProperty] = useState<any>(null)
+  const [selectedProperty, setSelectedProperty] = useState<Property | null>(null)
 
-  const properties = [
+  const properties: Property[] = [
     {
       id: "stanford",
       name: "Stanford GSB",
@@ -230,12 +274,12 @@ export default function PMFinancialDashboard() {
     }
   }
 
-  const handlePayBills = (property: any) => {
+  const handlePayBills = (property: Property) => {
     setSelectedProperty(property)
     setPaymentDialogOpen(true)
   }
 
-  const handleGenerateReport = (property: any) => {
+  const handleGenerateReport = (property: Property) => {
     setSelectedProperty(property)
     setReportDialogOpen(true)
   }
@@ -247,7 +291,7 @@ export default function PMFinancialDashboard() {
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
-              <h1 className="text-2xl font-bold">Job Vault</h1>
+              <h1 className="text-2xl font-bold text-pink-500">Job Vault</h1>
               <Badge variant="outline" className="border-gray-600 text-gray-300">
                 Financial Dashboard
               </Badge>
